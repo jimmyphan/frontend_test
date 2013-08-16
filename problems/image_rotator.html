@@ -5,15 +5,88 @@
 	<link type="text/css" rel="stylesheet" href="../css/style.css" />
 	<style type="text/css">
 		#rotator {
+			position:relative;
 			width: 450px;
-			height: 300px;
+			height: 315px;
 			border: 1px solid black;
-			background: #aaa;
+			background: #000;
 			text-align: center;
+			opacity: 1.0;              /* CSS3 */
+			-moz-opacity: 1.0;         /* Older versions of Firefox */
+			-khtml-opacity: 1.0;       /* Older versions of Safari */
+			filter: alpha(opacity=100); /* Internet Explorer */
 		}
+		
+		#rotator div{position:absolute; display:none}
+		#rotator #slide1{display:block; z-index:1}
+		#rotator div h4{color:#dc291e; margin:0; margin-top:-20px}
+		#rotator div p{margin:0}
 	</style>
+<script type="text/javascript">
+var duration 	= 1000; //fade duration in millisecond
+var showtime 	= 3000; //time to stay visible
+var itemIndex 	= 0;
+var currentIndex;
+var rotator;
+var rItms;
+var rItmsLenght;  
+
+function init(){
+	rotator 	= document.getElementById("rotator");
+	rItms 		= rotator.getElementsByTagName("div");
+	rItmsLenght = rItms.length;  
+	startFade();
+}
+
+function startFade() {
+   setInterval("setupSlide()", (duration + showtime));
+}
+
+/*******************************************
+Setup slide z-index postion and set opacity 
+*******************************************/
+function setupSlide() {
+	currentIndex = (itemIndex) %rItmsLenght;
+	var nextIndex = (itemIndex+1) %rItmsLenght;
+	
+	setPosition(currentIndex, 1);
+	setPosition(nextIndex, 0);
+	setOpacity(1,currentIndex);
+	setOpacity(1, nextIndex);
+	
+	fadeOut();
+	itemIndex++;
+}
+
+/*******************************************
+Creating fading effects
+*******************************************/
+function fadeOut(){
+	for (var i= 0; i<= 1; i+= 0.01){
+    	setTimeout("setOpacity(" + (1 - i) +", " + currentIndex + ")", i * duration);
+  	}
+}
+
+/*******************************************
+Setting zIndex positon and display
+*******************************************/
+function setPosition(index, position){
+	rItms[index].style.zIndex = position;	
+	rItms[index].style.display = "block";
+}
+
+/*******************************************
+Setting opacity for the given item
+*******************************************/
+function setOpacity(opa, index) {
+  rItms[index].style.opacity = opa;
+  rItms[index].style.MozOpacity = opa;
+  rItms[index].style.KhtmlOpacity = opa;
+  rItms[index].style.filter = 'alpha(opacity=' + (opa * 100) + ');';
+}
+</script>
 </head>
-<body>
+<body onload="init();">
 	<div id="headwrap">
 	<div class="head">
 		<div class="logo">Riot Games</div>
@@ -51,7 +124,29 @@
 	<hr/>
 
 	<div id="rotator">
-		Rotator Here
+		<div id="slide1">
+        	<img src="../img/kat_1.jpg" />
+            <h4>Katarina</h4>
+            <p>Fruitcake bonbon donut jelly-o brownie biscuit marzipan pie.</p>
+        </div>
+    	
+        <div id="slide2">
+        	<img src="../img/kat_2.jpg" />
+            <h4>Red Card Katarina</h4>
+			<p>Cheesecake marzipan cupcake biscuit candy canes pudding.</p>
+        </div>
+    	
+        <div id="slide3">
+        	<img src="../img/kat_3.jpg" />
+        	<h4>Kitty Cat Katarina</h4>
+			<p>Applicake topping halvah lemon drops wypas cotton candy.</p>
+        </div>
+        
+        <div id="slide4">
+        	<img src="../img/kat_4.jpg" />
+        	<h4>High Command Katarina</h4>
+			<p>Oat cake macaroon souffle cupcake chupa chups chocolate bar bear claw dragee lemon drops.</p>
+        </div>
 	</div>
 </div>
 
