@@ -12,14 +12,63 @@
 			width: 647px;
 			color: #000;
 		}
-		
+
 		.picture img {
 			border: 1px solid #CCCCCC;
 			vertical-align:middle; margin-bottom: 3px;
 		}
+		
+		#tab_wrapper{background:#FFF; color:#000; height:155px; width:645px; padding:10px}
+		#tab_content p{display:none; margin:0; padding:5px}	
+		#tabNav{list-style:none; overflow:auto; margin:0; padding:0}
+		#tabNav li{display:inline}
+		#tabNav li a{background-color:#ffffff; border:1px solid #000000; color:#000; float:left; padding:6px 12px}
+		#tabNav li a:hover{border:1px solid #f00}
+		#tabNav li a.tabSelected{color:#F00}
+		#tab_wrapper #tab_content p.tabSelected, #tabNav li a.tabSelected{border:#F00 1px solid; display:block}
 	</style>
+<script type="text/javascript">
+var navItems;
+var tabContents;
+var currentTab;
+
+function init(){
+	navItems	= document.getElementById("tab_wrapper").getElementsByTagName("a");
+	tabContents = document.getElementById("tab_content").getElementsByTagName("p");
+	
+	//Set click eventListener to all tab links
+	for(var i=0; i<navItems.length; i++){
+		navItems[i].addEventListener("click", switchTab);
+	}
+}
+
+/**********************************************************************
+Find what tab was click and swap out class to display correct content
+***********************************************************************/
+function switchTab(e){
+	var tab = e.target;
+	var tabLink = tab.getAttribute("href").substr(1,tab.getAttribute("href").length);
+	var content = document.getElementById(tabLink);
+	
+	if(tab != currentTab){
+		resetTabs();
+		tab.className = "tabSelected";
+		content.className = "tabSelected";
+	}
+}
+
+/***************
+Reset Tab styles
+****************/
+function resetTabs(){
+	for(var i=0; i<navItems.length; i++){
+		navItems[i].className = "";
+		tabContents[i].className = "";
+	}
+}
+</script>
 </head>
-<body>	
+<body onload="init();">	
 	<div id="headwrap">
 		<div class="head">
 			<div class="logo">Riot Games</div>
@@ -42,20 +91,27 @@
 		<div id="container">
 			Turn this content into a tabbed container.
 
-			<h3>Tab 1</h3>
-			<p>
-				Gingerbread muffin gummies gingerbread macaroon. Lollipop candy applicake toffee faworki. Bear claw topping jelly toffee toffee powder tiramisu candy chupa chups. Chupa chups dragee icing applicake chupa chups dessert. Croissant jelly faworki marzipan tootsie roll marshmallow. Marshmallow toffee sweet roll fruitcake.
-			</p>
-
-			<h3>Tab 2</h3>
-			<p>
-				Chocolate faworki croissant brownie halvah macaroon gummi bears wypas. Chupa chups icing gummies pudding dessert carrot cake. Cupcake jelly beans sweet roll icing ice cream apple pie tootsie roll gummi bears marzipan. Brownie gummies chupa chups pie. Cupcake jujubes topping. 
-			</p>
-
-			<h3>Tab 3</h3>
-			<p>
-				Cheesecake jelly beans ice cream lollipop sweet pastry. Chupa chups dessert cheesecake sesame snaps. Cookie ice cream candy canes pastry cake muffin. Icing chocolate sweet gummi bears powder oat cake oat cake lemon drops.
-			</p>
+			<div id="tab_wrapper">
+                <ul id="tabNav">
+                    <li><a class="tabSelected" href="#tab1">Tab 1</a></li>
+                    <li><a href="#tab2">Tab 2</a></li>
+                    <li><a href="#tab3">Tab 3</a></li>
+                </ul><!--end .tabs-->
+                
+                <div id="tab_content">
+                    <p id="tab1" class="tabSelected">
+                    Gingerbread muffin gummies gingerbread macaroon. Lollipop candy applicake toffee faworki. Bear claw topping jelly toffee toffee powder tiramisu candy chupa chups. Chupa chups dragee icing applicake chupa chups dessert. Croissant jelly faworki marzipan tootsie roll marshmallow. Marshmallow toffee sweet roll fruitcake.
+                    </p>
+                    
+                    <p id="tab2">
+                    Chocolate faworki croissant brownie halvah macaroon gummi bears wypas. Chupa chups icing gummies pudding dessert carrot cake. Cupcake jelly beans sweet roll icing ice cream apple pie tootsie roll gummi bears marzipan. Brownie gummies chupa chups pie. Cupcake jujubes topping. 
+                    </p>
+                    
+                    <p id="tab3">
+                    Cheesecake jelly beans ice cream lollipop sweet pastry. Chupa chups dessert cheesecake sesame snaps. Cookie ice cream candy canes pastry cake muffin. Icing chocolate sweet gummi bears powder oat cake oat cake lemon drops.
+                    </p>
+                </div><!--end #tab_content-->
+            </div><!--end #tab_wrapper-->
 		</div>
 	</div>
 </body>
